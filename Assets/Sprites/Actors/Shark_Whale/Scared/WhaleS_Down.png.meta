@@ -106,10 +106,10 @@ TextureImporter:
       name: WhaleS_Down_0
       rect:
         serializedVersion: 2
-        x: 127
-        y: 0
-        width: 418
-        height: 1408
+        x: 0
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,10 +127,10 @@ TextureImporter:
       name: WhaleS_Down_1
       rect:
         serializedVersion: 2
-        x: 831
-        y: 0
-        width: 418
-        height: 1408
+        x: 704
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,52 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: WhaleS_Down_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7afef7aa9d2ae149bba567de8749ffa
+      internalID: -979232696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhaleS_Down_3
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 827ca285e6032cc4cb44e40498cf3d28
+      internalID: 1395675619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c887d4f5f35c632499ea34474ded4e70
     internalID: 0
     vertices: []
     indices: 
@@ -157,6 +199,8 @@ TextureImporter:
     nameFileIdTable:
       WhaleS_Down_0: 1085498498034787178
       WhaleS_Down_1: 666726143420002751
+      WhaleS_Down_2: -979232696
+      WhaleS_Down_3: 1395675619
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -110,9 +110,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 863
-        width: 673
-        height: 418
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,10 +130,10 @@ TextureImporter:
       name: WhaleD_Left_1
       rect:
         serializedVersion: 2
-        x: 703
-        y: 863
-        width: 674
-        height: 418
+        x: 704
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,9 +152,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 159
-        width: 1408
-        height: 418
+        y: 0
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,31 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: WhaleD_Left_3
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ed61d92defb82045821c24952dd935b
+      internalID: -1018978502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c176f6a0ff795e0489b11d8af1b62366
     internalID: 0
     vertices: []
     indices: 
@@ -182,6 +203,7 @@ TextureImporter:
       WhaleD_Left_0: 5077911349392339773
       WhaleD_Left_1: -9085688292686445569
       WhaleD_Left_2: -968137896281636205
+      WhaleD_Left_3: -1018978502
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

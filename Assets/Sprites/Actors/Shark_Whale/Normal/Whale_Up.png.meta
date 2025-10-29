@@ -109,10 +109,10 @@ TextureImporter:
       name: Whale_Up_0
       rect:
         serializedVersion: 2
-        x: 159
-        y: 0
-        width: 418
-        height: 1408
+        x: 0
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,10 +130,10 @@ TextureImporter:
       name: Whale_Up_1
       rect:
         serializedVersion: 2
-        x: 863
-        y: 735
-        width: 418
-        height: 673
+        x: 704
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,10 +151,10 @@ TextureImporter:
       name: Whale_Up_2
       rect:
         serializedVersion: 2
-        x: 863
-        y: 31
-        width: 418
-        height: 674
+        x: 0
+        y: 0
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,31 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Whale_Up_3
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d333416af3b52a6469905cf4bce0df3a
+      internalID: 263080019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: df394139f791c3d4bb4b8c9439f10a31
     internalID: 0
     vertices: []
     indices: 
@@ -182,6 +203,7 @@ TextureImporter:
       Whale_Up_0: -7482123846085959989
       Whale_Up_1: -3388572276319260419
       Whale_Up_2: -8859646145224485931
+      Whale_Up_3: 263080019
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

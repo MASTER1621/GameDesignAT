@@ -106,10 +106,10 @@ TextureImporter:
       name: WhaleS_Up_0
       rect:
         serializedVersion: 2
-        x: 159
-        y: 0
-        width: 418
-        height: 1408
+        x: 0
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,10 +127,10 @@ TextureImporter:
       name: WhaleS_Up_1
       rect:
         serializedVersion: 2
-        x: 863
-        y: 0
-        width: 418
-        height: 1408
+        x: 704
+        y: 704
+        width: 704
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,52 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: WhaleS_Up_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b246835c57f6ff478580e17327c6501
+      internalID: 431584641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhaleS_Up_3
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 704
+        height: 704
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dc939a4b2b47e24e8783a63a6188ea8
+      internalID: -137216349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 205b010e9e730f643a452939abbf0dad
     internalID: 0
     vertices: []
     indices: 
@@ -157,6 +199,8 @@ TextureImporter:
     nameFileIdTable:
       WhaleS_Up_0: -8206791983468071260
       WhaleS_Up_1: -4363579891296911907
+      WhaleS_Up_2: 431584641
+      WhaleS_Up_3: -137216349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
