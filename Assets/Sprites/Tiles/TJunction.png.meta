@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 37715f570423fc24a8f3f5d8af638c37
+guid: 60487d968171692469041e16a60e875f
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -103,9 +103,9 @@ TextureImporter:
       name: TJunction_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 31
         y: 31
-        width: 704
+        width: 673
         height: 801
       alignment: 0
       pivot: {x: 0, y: 0}
