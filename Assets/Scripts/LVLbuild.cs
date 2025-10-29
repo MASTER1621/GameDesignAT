@@ -4,40 +4,35 @@ using UnityEngine;
 public class LVLbuild : MonoBehaviour
 {
     [Header("Tile Sprites (drag from Assets/Sprites/Tiles)")]
-    public Sprite Empty;           // "Empty"
-    public Sprite OutsideCorner;   // "OutsideCorner"
-    public Sprite OutsideWall;     // "OutsideWall"
-    public Sprite InsideCorner;    // "InsideCorner"
-    public Sprite InsideWall;      // "InsideWall"
-    public Sprite PelletSpot;      // "PelletSpot" (can be transparent)
-    public Sprite PowerSpot;       // "PowerSpot"  (can be transparent)
-    public Sprite TJunction;       // "TJunction"
-    public Sprite GhostExitWall;   // "GhostExitWall"
+    public Sprite Empty;         
+    public Sprite OutsideCorner;  
+    public Sprite OutsideWall;     
+    public Sprite InsideCorner;   
+    public Sprite InsideWall;    
+    public Sprite PelletSpot;     
+    public Sprite PowerSpot;       
+    public Sprite TJunction;       
+    public Sprite GhostExitWall;   
 
     [Header("Grid")]
-    public float tileSize = 1f;    // 1 unit per tile
+    public float tileSize = 1f;    
 
     [Header("Optional pellets (Sprites/Pickups)")]
     public bool placePellets = false;
     public Sprite Pellet_Normal;
     public Sprite Pellet_Power;
-    public Transform pelletsParent; // leave empty to parent to this builder
+    public Transform pelletsParent; 
 
-    // 0 Empty, 1 OutsideCorner, 2 OutsideWall, 3 InsideCorner, 4 InsideWall,
-    // 5 PelletSpot, 6 PowerSpot, 7 TJunction, 8 GhostExitWall
-    // IMPORTANT: paste your friend's numbers here.
-    // If you forget, a tiny 4x4 test map will be used so you can see SOMETHING.
     int[,] levelMap =
     {
-        // --- REMOVE THIS TEST BLOCK once you paste your real numbers ---
         {1,2,2,2,2,2,2,2,2,2,2,2,2,7}, {2,5,5,5,5,5,5,5,5,5,5,5,5,4}, {2,5,3,4,4,3,5,3,4,4,4,3,5,4}, {2,6,4,0,0,4,5,4,0,0,0,4,5,4}, {2,5,3,4,4,3,5,3,4,4,4,3,5,3}, {2,5,5,5,5,5,5,5,5,5,5,5,5,5}, {2,5,3,4,4,3,5,3,3,5,3,4,4,4}, {2,5,3,4,4,3,5,4,4,5,3,4,4,3}, {2,5,5,5,5,5,5,4,4,5,5,5,5,4}, {1,2,2,2,2,1,5,4,3,4,4,3,0,4}, {0,0,0,0,0,2,5,4,3,4,4,3,0,3}, {0,0,0,0,0,2,5,4,4,0,0,0,0,0}, {0,0,0,0,0,2,5,4,4,0,3,4,4,8}, {2,2,2,2,2,1,5,3,3,0,4,0,0,0}, {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
-        // --------------------------------------------------------------
+
     };
 
     [ContextMenu("Build Into Scene (Editor)")]
     public void BuildIntoScene()
     {
-        if (!enabled) enabled = true;   // ensure script runs in edit
+        if (!enabled) enabled = true;  
         ClearChildren();
         BuildLevel();
         Debug.Log("[LVLbuild] Built tiles into the scene.");
@@ -45,7 +40,7 @@ public class LVLbuild : MonoBehaviour
 
     void Start()
     {
-        // Runs in Play mode; not needed for marking but handy
+        
         if (Application.isPlaying)
         {
             ClearChildren();
@@ -95,7 +90,7 @@ public class LVLbuild : MonoBehaviour
             var sr = tile.AddComponent<SpriteRenderer>();
             sr.sprite = byIndex[idx];
 
-            // optionally drop pellet sprites on 5/6
+          
             if (placePellets && (idx == 5 || idx == 6))
             {
                 Transform parent = pelletsParent == null ? transform : pelletsParent;

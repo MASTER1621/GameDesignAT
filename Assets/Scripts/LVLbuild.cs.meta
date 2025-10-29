@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 6319dd270a8d63f418d787c1d07baad4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Empty: {fileID: 8995154407686431259, guid: e0012742d528442429482e27a9829e41, type: 3}
+  - OutsideCorner: {instanceID: 0}
+  - OutsideWall: {instanceID: 0}
+  - InsideCorner: {instanceID: 0}
+  - InsideWall: {instanceID: 0}
+  - PelletSpot: {instanceID: 0}
+  - PowerSpot: {instanceID: 0}
+  - TJunction: {instanceID: 0}
+  - GhostExitWall: {instanceID: 0}
+  - Pellet_Normal: {instanceID: 0}
+  - Pellet_Power: {instanceID: 0}
+  - pelletsParent: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
