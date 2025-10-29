@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6230868178877834547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4121502597975335084}
+  - component: {fileID: 2353798399434740727}
+  m_Layer: 0
+  m_Name: Helper_LevelBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4121502597975335084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230868178877834547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2353798399434740727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230868178877834547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6319dd270a8d63f418d787c1d07baad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Empty: {fileID: 8995154407686431259, guid: e0012742d528442429482e27a9829e41, type: 3}
+  OutsideCorner: {fileID: -6473938962803761206, guid: 70250d2255405e74c9dea7c03ced0754, type: 3}
+  OutsideWall: {fileID: -3610516751961147894, guid: f23c648b20ca6114b887ff33ed926d13, type: 3}
+  InsideCorner: {fileID: 3142088518428998274, guid: 23703b94f38234f47912ecb5a9748d4c, type: 3}
+  InsideWall: {fileID: 8637552741126372616, guid: f88f5b93037a44c4eac6e5e0f65c4df7, type: 3}
+  PelletSpot: {fileID: 8288949840097118512, guid: bd7dd51b628ffb04ab53ed463b31530d, type: 3}
+  PowerSpot: {fileID: 1323902411980481498, guid: a9ab74a652a31c9439f1e1b8c5aa4c88, type: 3}
+  TJunction: {fileID: 1272056469653595252, guid: 60487d968171692469041e16a60e875f, type: 3}
+  GhostExitWall: {fileID: 2832403628434877227, guid: c0aaa935469b30c4993534d124d54a2c, type: 3}
+  tileSize: 20
+  placePellets: 1
+  Pellet_Normal: {fileID: 2146189466317306039, guid: b5fa03b216fc7e84fbfc351775f1f49c, type: 3}
+  Pellet_Power: {fileID: 6337072182853409961, guid: 8aae4e665cd12564aa45f3e132274080, type: 3}
+  pelletsParent: {fileID: 0}
