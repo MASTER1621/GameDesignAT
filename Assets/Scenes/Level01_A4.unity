@@ -9537,6 +9537,11 @@ MonoBehaviour:
   bumpAudioSrc: {fileID: 178748434}
   wallBumpClip: {fileID: 8300000, guid: 818facf4f9ad20d4b959c2d920178906, type: 3}
   wallBumpFXPrefab: {fileID: 4869154528113435879, guid: 85171c379f07f8148b819fe36e91018a, type: 3}
+  teleLeft: {fileID: 0}
+  teleRight: {fileID: 0}
+  teleLeftTag: TeleLeft
+  teleRightTag: TeleRight
+  teleCooldown: 0.2
   lastInput: 0
   currentInput: 0
 --- !u!50 &178748430
@@ -16824,9 +16829,11 @@ GameObject:
   - component: {fileID: 284556314}
   - component: {fileID: 284556316}
   - component: {fileID: 284556315}
+  - component: {fileID: 284556317}
+  - component: {fileID: 284556318}
   m_Layer: 0
   m_Name: Shark_Regular
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16923,6 +16930,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &284556317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284556313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbbc74b87fe69c47b9c7aa0742cb7b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+--- !u!58 &284556318
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284556313}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 11
 --- !u!1 &285507529
 GameObject:
   m_ObjectHideFlags: 0
@@ -19416,7 +19472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 351550824}
-  - component: {fileID: 351550823}
+  - component: {fileID: 351550825}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -19424,20 +19480,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &351550823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351550822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79eba6a1004bae54092cba04cbaa0cfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 2042620246}
-  score: 0
 --- !u!4 &351550824
 Transform:
   m_ObjectHideFlags: 0
@@ -19453,6 +19495,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &351550825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351550822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79eba6a1004bae54092cba04cbaa0cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 2042620246}
+  ghostTimerText: {fileID: 1296676403}
+  powerLabelText: {fileID: 1354153857}
+  livesGroup: {fileID: 1663914345}
+  ghostAnimators:
+  - {fileID: 284556315}
+  - {fileID: 999096677}
+  - {fileID: 1606338313}
+  - {fileID: 481103807}
+  musicSrc: {fileID: 1980277000}
+  normalBGM: {fileID: 8300000, guid: b16384390add05846abdbf360c66816b, type: 3}
+  scaredBGM: {fileID: 8300000, guid: 42e0424906472534fa9a56f81bf7dd4c, type: 3}
+  sfxSrc: {fileID: 178748428}
+  pacDeathClip: {fileID: 8300000, guid: 88cd7072ab1711d4d84e6d283db5d166, type: 3}
+  ghostEatenClip: {fileID: 8300000, guid: b0462b34ef422ca43bc3caddb3c8354b, type: 3}
+  pac: {fileID: 178748429}
+  pacDeathFXPrefab: {fileID: 3234747739405649892, guid: 54944847527df524e94a1071368c5272, type: 3}
+  pacStartWorld: {x: 20, y: -20}
+  score: 0
+  lives: 3
+  respawnGraceSeconds: 1
+  ghostDeadSeconds: 3
 --- !u!1 &354309932
 GameObject:
   m_ObjectHideFlags: 0
@@ -26146,9 +26222,10 @@ GameObject:
   - component: {fileID: 481103805}
   - component: {fileID: 481103807}
   - component: {fileID: 481103806}
+  - component: {fileID: 481103808}
   m_Layer: 0
   m_Name: Shark_Whale
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26245,6 +26322,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &481103808
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481103804}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 11
 --- !u!1 &481260288
 GameObject:
   m_ObjectHideFlags: 0
@@ -62328,9 +62441,10 @@ GameObject:
   - component: {fileID: 999096675}
   - component: {fileID: 999096677}
   - component: {fileID: 999096676}
+  - component: {fileID: 999096678}
   m_Layer: 0
   m_Name: Shark_Hammer
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62427,6 +62541,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &999096678
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999096674}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 11
 --- !u!1 &1006081672
 GameObject:
   m_ObjectHideFlags: 0
@@ -95174,9 +95324,10 @@ GameObject:
   - component: {fileID: 1606338311}
   - component: {fileID: 1606338313}
   - component: {fileID: 1606338312}
+  - component: {fileID: 1606338314}
   m_Layer: 0
   m_Name: Shark_Tiger
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95273,6 +95424,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1606338314
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606338310}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 11
 --- !u!1 &1607602488
 GameObject:
   m_ObjectHideFlags: 0
@@ -106477,7 +106664,7 @@ Transform:
   m_GameObject: {fileID: 1755773048}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 200, y: -280, z: 0}
+  m_LocalPosition: {x: 61, y: -280, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

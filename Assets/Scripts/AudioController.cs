@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -11,7 +10,9 @@ public class AudioController : MonoBehaviour
     IEnumerator Start()
     {
         if (source == null) source = GetComponent<AudioSource>();
-        source.loop = false;                 // intro: no loop
+        if (GameManager.I) GameManager.I.musicSrc = source;
+
+        source.loop = false;
         if (introBGM != null)
         {
             source.clip = introBGM;
@@ -19,7 +20,12 @@ public class AudioController : MonoBehaviour
             float wait = Mathf.Min(introBGM.length, 3f);
             yield return new WaitForSeconds(wait);
         }
-        source.loop = true;                  // normal: loop
+
+        while (GameManager.I && !GameManager.I.roundStarted) yield return null;
+
+        while (GameManager.I && GameManager.I.IsScared) yield return null;
+
+        source.loop = true;
         source.clip = normalBGM;
         source.Play();
     }

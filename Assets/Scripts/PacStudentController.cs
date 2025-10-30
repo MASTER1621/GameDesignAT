@@ -43,10 +43,14 @@ public class PacStudentController : MonoBehaviour
     Dir _lastBumpDir = Dir.None;
     float _lastTeleTime = -999f;
 
+    Collider2D bodyCol;
+    bool inputEnabled = true;
+
     void Start()
     {
         if (!anim) anim = GetComponent<Animator>();
         if (!audioSrc) audioSrc = GetComponent<AudioSource>();
+        bodyCol = GetComponent<Collider2D>();
         if (moveDust) moveDust.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         SnapToGrid();
         Face(Dir.Right);
@@ -56,6 +60,9 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.I && !GameManager.I.roundStarted) { StopMoveAudio(); StopDust(); UpdateAnim(); return; }
+        if (!inputEnabled) { StopMoveAudio(); StopDust(); UpdateAnim(); return; }
+
         ReadInput();
 
         if (!isLerping)
@@ -86,6 +93,11 @@ public class PacStudentController : MonoBehaviour
         }
 
         UpdateAnim();
+    }
+
+    public void SetInputEnabled(bool v)
+    {
+        inputEnabled = v;
     }
 
     void ReadInput()
@@ -142,7 +154,7 @@ public class PacStudentController : MonoBehaviour
         return false;
     }
 
-    void SnapToGrid()
+    public void SnapToGrid()
     {
         float x = Mathf.Round(transform.position.x / tileSize) * tileSize;
         float y = Mathf.Round(transform.position.y / tileSize) * tileSize;
@@ -244,10 +256,43 @@ public class PacStudentController : MonoBehaviour
             if (GameManager.I) GameManager.I.AddScore(10);
             return;
         }
+        if (other.CompareTag("PowerPellet"))
+        {
+            Destroy(other.gameObject);
+            if (GameManager.I)
+            {
+                GameManager.I.AddScore(50);
+                GameManager.I.StartScared(10f);
+            }
+            return;
+        }
         if (other.CompareTag("Cherry"))
         {
             Destroy(other.gameObject);
             if (GameManager.I) GameManager.I.AddScore(100);
+            return;
+        }
+
+        if (other.CompareTag("Ghost") || other.transform.root.CompareTag("Ghost"))
+        {
+            Animator ga = other.GetComponentInParent<Animator>() ?? other.GetComponent<Animator>();
+            if (ga)
+            {
+                bool scared = HasParam(ga, "Scared") && ga.GetBool("Scared");
+                bool recovering = HasParam(ga, "Recovering") && ga.GetBool("Recovering");
+                bool dead = HasParam(ga, "Dead") && ga.GetBool("Dead");
+                if (!dead)
+                {
+                    if (scared || recovering)
+                    {
+                        if (GameManager.I) GameManager.I.OnGhostEaten(ga);
+                    }
+                    else
+                    {
+                        if (GameManager.I) GameManager.I.OnPacHitByNormalGhost(ga);
+                    }
+                }
+            }
             return;
         }
 
@@ -262,6 +307,13 @@ public class PacStudentController : MonoBehaviour
         {
             TeleportTo(teleLeft, currentInput != Dir.None ? currentInput : lastInput);
         }
+    }
+
+    bool HasParam(Animator a, string p)
+    {
+        var ps = a.parameters;
+        for (int i = 0; i < ps.Length; i++) if (ps[i].name == p) return true;
+        return false;
     }
 
     void TeleportTo(Transform exitT, Dir keepDir)
@@ -284,5 +336,33 @@ public class PacStudentController : MonoBehaviour
             StopMoveAudio();
             StopDust();
         }
+    }
+
+    public void ForceStopAtCurrentCell()
+    {
+        isLerping = false;
+        t = 0f;
+        transform.position = currentGrid;
+        StopMoveAudio();
+        StopDust();
+    }
+
+    public void RespawnAt(Vector2 worldPos)
+    {
+        transform.position = worldPos;
+        SnapToGrid();
+        lastInput = Dir.None;
+        currentInput = Dir.None;
+        isLerping = false;
+        t = 0f;
+        StopMoveAudio();
+        StopDust();
+        Face(Dir.Right);
+    }
+
+    public void SetCollidable(bool v)
+    {
+        if (!bodyCol) bodyCol = GetComponent<Collider2D>();
+        if (bodyCol) bodyCol.enabled = v;
     }
 }

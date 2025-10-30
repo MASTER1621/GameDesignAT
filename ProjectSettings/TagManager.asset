@@ -10,6 +10,7 @@ TagManager:
   - Cherry
   - TeleLeft
   - TeleRight
+  - Ghost
   layers:
   - Default
   - TransparentFX
