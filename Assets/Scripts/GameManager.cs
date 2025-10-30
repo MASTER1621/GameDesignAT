@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
     Vector2 timerPosTarget;
     Coroutine powerUICo;
 
+    public string levelKey = "Level1";
+
     public bool roundStarted { get; private set; }
     public bool IsScared => isScared;
 
@@ -447,17 +449,34 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("StartScene");
     }
 
-    void SaveIfHighScore()
+    // void SaveIfHighScore()
+    // {
+    //     int prevScore = PlayerPrefs.GetInt("HighScore_Level1", 0);
+    //     int prevMs = PlayerPrefs.GetInt("BestTime_Level1_ms", 0);
+    //     int curMs = Mathf.Max(0, Mathf.RoundToInt(gameTime * 1000f));
+    //     bool better = score > prevScore || (score == prevScore && (prevMs == 0 || curMs < prevMs));
+    //     if (better)
+    //     {
+    //         PlayerPrefs.SetInt("HighScore_Level1", score);
+    //         PlayerPrefs.SetInt("BestTime_Level1_ms", curMs);
+    //         PlayerPrefs.Save();
+    //     }
+    // }
+
+    public void SaveIfHighScore()
+{
+    string kScore = "HighScore_" + levelKey;
+    string kTime  = "BestTime_" + levelKey + "_ms";
+    int prevScore = PlayerPrefs.GetInt(kScore, 0);
+    int prevTime  = PlayerPrefs.GetInt(kTime, int.MaxValue);
+    int curMs     = Mathf.FloorToInt(gameTime * 1000f);
+    if (score > prevScore || (score == prevScore && curMs < prevTime))
     {
-        int prevScore = PlayerPrefs.GetInt("HighScore_Level1", 0);
-        int prevMs = PlayerPrefs.GetInt("BestTime_Level1_ms", 0);
-        int curMs = Mathf.Max(0, Mathf.RoundToInt(gameTime * 1000f));
-        bool better = score > prevScore || (score == prevScore && (prevMs == 0 || curMs < prevMs));
-        if (better)
-        {
-            PlayerPrefs.SetInt("HighScore_Level1", score);
-            PlayerPrefs.SetInt("BestTime_Level1_ms", curMs);
-            PlayerPrefs.Save();
-        }
+        PlayerPrefs.SetInt(kScore, score);
+        PlayerPrefs.SetInt(kTime, curMs);
+        PlayerPrefs.Save();
     }
+}
+
+
 }

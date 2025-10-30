@@ -7340,7 +7340,7 @@ GameObject:
   - component: {fileID: 1099091463}
   - component: {fileID: 1099091462}
   - component: {fileID: 1099091466}
-  - component: {fileID: 1099091467}
+  - component: {fileID: 1099091468}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7465,7 +7465,7 @@ MonoBehaviour:
   level2SceneName: Level02_HD
   level1Button: {fileID: 860103852}
   level2Button: {fileID: 1399269654}
---- !u!114 &1099091467
+--- !u!114 &1099091468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7474,11 +7474,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099091461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8757938e511e484f8564affbd872005, type: 3}
+  m_Script: {fileID: 11500000, guid: 13f5a1c5549d59f43bb687a1a2f381fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScoreTextL1: {fileID: 931669365}
-  bestTimeTextL1: {fileID: 2144228832}
+  highScoreL1: {fileID: 931669365}
+  bestTimeL1: {fileID: 2144228832}
+  highScoreL2: {fileID: 144402581}
+  bestTimeL2: {fileID: 124074768}
 --- !u!1 &1107108700
 GameObject:
   m_ObjectHideFlags: 0
