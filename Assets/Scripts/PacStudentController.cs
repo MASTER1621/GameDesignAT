@@ -12,13 +12,25 @@ public class PacStudentController : MonoBehaviour
     [Header("Anim")]
     public Animator anim;
 
-    [Header("Audio")]
+    [Header("Audio (move loop)")]
     public AudioSource audioSrc;
     public AudioClip sfxMove;
     public AudioClip sfxMoveEat;
 
-    [Header("VFX")]
+    [Header("VFX (movement)")]
     public ParticleSystem moveDust;
+
+    [Header("Wall Bump FX (one-shot)")]
+    public AudioSource bumpAudioSrc;
+    public AudioClip wallBumpClip;
+    public ParticleSystem wallBumpFXPrefab;
+
+    [Header("Teleporters")]
+    public Transform teleLeft;
+    public Transform teleRight;
+    public string teleLeftTag = "TeleLeft";
+    public string teleRightTag = "TeleRight";
+    public float teleCooldown = 0.2f;
 
     [HideInInspector] public Dir lastInput = Dir.None;
     [HideInInspector] public Dir currentInput = Dir.None;
@@ -27,6 +39,10 @@ public class PacStudentController : MonoBehaviour
     bool isLerping = false;
     float t = 0f;
 
+    Vector2 _lastBumpCell = new Vector2(float.NaN, float.NaN);
+    Dir _lastBumpDir = Dir.None;
+    float _lastTeleTime = -999f;
+
     void Start()
     {
         if (!anim) anim = GetComponent<Animator>();
@@ -34,6 +50,8 @@ public class PacStudentController : MonoBehaviour
         if (moveDust) moveDust.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         SnapToGrid();
         Face(Dir.Right);
+        if (!teleLeft) { var tl = GameObject.Find("TeleLeft"); if (tl) teleLeft = tl.transform; }
+        if (!teleRight) { var tr = GameObject.Find("TeleRight"); if (tr) teleRight = tr.transform; }
     }
 
     void Update()
@@ -42,12 +60,15 @@ public class PacStudentController : MonoBehaviour
 
         if (!isLerping)
         {
-            if (!TryStartMove(lastInput) && !TryStartMove(currentInput))
+            if (!TryStartMove(lastInput))
             {
-                StopMoveAudio();
-                StopDust();
-                UpdateAnim();
-                return;
+                if (!TryStartMove(currentInput))
+                {
+                    StopMoveAudio();
+                    StopDust();
+                    UpdateAnim();
+                    return;
+                }
             }
         }
         else
@@ -82,24 +103,33 @@ public class PacStudentController : MonoBehaviour
         Vector2 dir = ToVec(d) * tileSize;
         Vector2 next = currentGrid + dir;
 
-        if (!IsBlocked(next, d))
+        if (IsBlocked(next, d))
         {
-            currentInput = d;
-            isLerping = true;
-            t = 0f;
-            targetGrid = next;
-            Face(d);
-            StartMoveAudio(next);
-            PlayDust();
-            return true;
+            bool attemptedTurnIntoWall = (d == lastInput && d != currentInput);
+            bool ranStraightIntoWall = (d == currentInput);
+            if ((attemptedTurnIntoWall || ranStraightIntoWall) && ShouldBumpOnce(currentGrid, d))
+            {
+                PlayWallBump(d, currentGrid, next);
+            }
+            return false;
         }
-        return false;
+
+        currentInput = d;
+        isLerping = true;
+        t = 0f;
+        targetGrid = next;
+        Face(d);
+        StartMoveAudio(next);
+        PlayDust();
+
+        _lastBumpDir = Dir.None;
+        _lastBumpCell = new Vector2(float.NaN, float.NaN);
+        return true;
     }
 
     bool IsBlocked(Vector2 worldPos, Dir d)
     {
         Vector2 size = Vector2.one * (tileSize * 0.7f);
-
         var wallHit = Physics2D.OverlapBox(worldPos, size, 0f, wallMask);
 #if UNITY_EDITOR
         if (wallHit) Debug.Log($"Blocked by WALL: {wallHit.name} (layer {LayerMask.LayerToName(wallHit.gameObject.layer)})");
@@ -186,5 +216,69 @@ public class PacStudentController : MonoBehaviour
     void StopDust()
     {
         if (moveDust && moveDust.isPlaying) moveDust.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+    }
+
+    bool ShouldBumpOnce(Vector2 cellCenter, Dir d)
+    {
+        if (_lastBumpDir == d && !float.IsNaN(_lastBumpCell.x))
+        {
+            if ((cellCenter - _lastBumpCell).sqrMagnitude < 0.01f) return false;
+        }
+        _lastBumpDir = d;
+        _lastBumpCell = cellCenter;
+        return true;
+    }
+
+    void PlayWallBump(Dir d, Vector2 fromCell, Vector2 toCell)
+    {
+        Vector3 contact = Vector3.Lerp(fromCell, toCell, 0.5f);
+        contact.z = transform.position.z;
+        if (wallBumpFXPrefab)
+        {
+            var ps = Instantiate(wallBumpFXPrefab, contact, Quaternion.identity);
+            ps.Play();
+            Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax + 0.25f);
+        }
+        if (bumpAudioSrc && wallBumpClip)
+        {
+            bumpAudioSrc.PlayOneShot(wallBumpClip);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (Time.time - _lastTeleTime < teleCooldown) return;
+        bool hitLeft = other.CompareTag(teleLeftTag) || other.name == "TeleLeft";
+        bool hitRight = other.CompareTag(teleRightTag) || other.name == "TeleRight";
+        if (hitLeft && teleRight)
+        {
+            TeleportTo(teleRight, currentInput != Dir.None ? currentInput : lastInput);
+        }
+        else if (hitRight && teleLeft)
+        {
+            TeleportTo(teleLeft, currentInput != Dir.None ? currentInput : lastInput);
+        }
+    }
+
+    void TeleportTo(Transform exitT, Dir keepDir)
+    {
+        _lastTeleTime = Time.time;
+        Vector2 snapped = new Vector2(
+            Mathf.Round(exitT.position.x / tileSize) * tileSize,
+            Mathf.Round(exitT.position.y / tileSize) * tileSize
+        );
+        isLerping = false;
+        t = 0f;
+        currentGrid = snapped;
+        transform.position = snapped;
+        if (keepDir == Dir.None) keepDir = Dir.Left;
+        lastInput = keepDir;
+        currentInput = keepDir;
+        if (!TryStartMove(keepDir))
+        {
+            Face(keepDir);
+            StopMoveAudio();
+            StopDust();
+        }
     }
 }
