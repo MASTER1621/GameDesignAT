@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text ghostTimerText;
     public TMP_Text powerLabelText;
+    public TMP_Text timerText;
     public Transform livesGroup;
 
     [Header("Round Overlay")]
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     [Header("Pac")]
     public PacStudentController pac;
     public ParticleSystem pacDeathFXPrefab;
-    public Vector2 pacStartWorld = new Vector2(21f, -21f);
+    public Vector2 pacStartWorld = new Vector2(20f, -20f);
 
     [Header("State")]
     public int score = 0;
@@ -45,9 +47,15 @@ public class GameManager : MonoBehaviour
     public float powerUISlideDistance = 220f;
     public float powerUIAnimTime = 0.18f;
 
+    [Header("Pellets")]
+    public int pelletsRemaining = 0;
+
     float scaredTimer = 0f;
     bool isScared = false;
     bool isRecovering = false;
+
+    float gameTime = 0f;
+    bool gameOver = false;
 
     Vector3 pacStartPos;
     Vector3[] ghostStartPos;
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
         UpdateLivesUI();
         HideGhostTimerImmediate();
+        if (timerText) timerText.text = "00:00:00";
 
         float z = pac ? pac.transform.position.z : 0f;
         pacStartPos = new Vector3(pacStartWorld.x, pacStartWorld.y, z);
@@ -91,7 +100,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         roundStarted = false;
-        if (pac) { pac.ForceStopAtCurrentCell(); pac.SetInputEnabled(false); pac.SetCollidable(false); }
+        gameOver = false;
+        gameTime = 0f;
+        if (timerText) timerText.text = "00:00:00";
+
+        pelletsRemaining = CountPelletsInScene();
+
+        if (pac) { pac.RespawnAt(pacStartPos); pac.SetInputEnabled(false); pac.SetCollidable(false); }
         FreezeGhosts(true);
         if (roundOverlayPanel) roundOverlayPanel.SetActive(true);
         if (roundCountdownText) roundCountdownText.gameObject.SetActive(true);
@@ -100,11 +115,19 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!isScared) return;
-        scaredTimer -= Time.deltaTime;
-        if (!isRecovering && scaredTimer <= 3f) { isRecovering = true; SetGhostsRecovering(); }
-        UpdateGhostTimerUI(Mathf.Max(scaredTimer, 0f));
-        if (scaredTimer <= 0f) EndScared();
+        if (roundStarted && !gameOver)
+        {
+            gameTime += Time.deltaTime;
+            UpdateMainTimerUI();
+        }
+
+        if (isScared && !gameOver)
+        {
+            scaredTimer -= Time.deltaTime;
+            if (!isRecovering && scaredTimer <= 3f) { isRecovering = true; SetGhostsRecovering(); }
+            UpdateGhostTimerUI(Mathf.Max(scaredTimer, 0f));
+            if (scaredTimer <= 0f) EndScared();
+        }
     }
 
     IEnumerator RoundStartRoutine()
@@ -125,6 +148,16 @@ public class GameManager : MonoBehaviour
         if (pac) { pac.SetCollidable(true); pac.SetInputEnabled(true); }
         FreezeGhosts(false);
         SwitchMusic(normalBGM);
+    }
+
+    void UpdateMainTimerUI()
+    {
+        if (!timerText) return;
+        int ms = Mathf.Max(0, Mathf.RoundToInt(gameTime * 1000f));
+        int mm = ms / 60000;
+        int ss = (ms % 60000) / 1000;
+        int cs = (ms % 1000) / 10;
+        timerText.text = mm.ToString("00") + ":" + ss.ToString("00") + ":" + cs.ToString("00");
     }
 
     public void AddScore(int v)
@@ -347,6 +380,7 @@ public class GameManager : MonoBehaviour
         if (isScared) EndScared();
         lives = Mathf.Max(0, lives - 1);
         UpdateLivesUI();
+        if (lives <= 0) { yield return new WaitForSeconds(1.2f); StartCoroutine(GameOverRoutine()); pacIsDying = false; yield break; }
         yield return new WaitForSeconds(1.2f);
         RespawnPacAndGhosts();
         pacNoHitUntil = Time.time + respawnGraceSeconds;
@@ -383,5 +417,54 @@ public class GameManager : MonoBehaviour
             }
         }
         SwitchMusic(normalBGM);
+    }
+
+    public void OnPelletCollected()
+    {
+        pelletsRemaining = Mathf.Max(0, pelletsRemaining - 1);
+        CheckGameOverByPellets();
+    }
+
+    int CountPelletsInScene()
+    {
+        int a = 0;
+        var p = GameObject.FindGameObjectsWithTag("Pellet");
+        var pp = GameObject.FindGameObjectsWithTag("PowerPellet");
+        if (p != null) a += p.Length;
+        if (pp != null) a += pp.Length;
+        return a;
+    }
+
+    void CheckGameOverByPellets()
+    {
+        if (gameOver) return;
+        if (pelletsRemaining <= 0) StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        if (gameOver) yield break;
+        gameOver = true;
+        FreezeGhosts(true);
+        if (pac) { pac.ForceStopAtCurrentCell(); pac.SetInputEnabled(false); pac.SetCollidable(false); }
+        if (roundOverlayPanel) roundOverlayPanel.SetActive(true);
+        if (roundCountdownText) { roundCountdownText.gameObject.SetActive(true); roundCountdownText.text = "GAME OVER"; }
+        SaveIfHighScore();
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("StartScene");
+    }
+
+    void SaveIfHighScore()
+    {
+        int prevScore = PlayerPrefs.GetInt("HighScore_Level1", 0);
+        int prevMs = PlayerPrefs.GetInt("BestTime_Level1_ms", 0);
+        int curMs = Mathf.Max(0, Mathf.RoundToInt(gameTime * 1000f));
+        bool better = score > prevScore || (score == prevScore && (prevMs == 0 || curMs < prevMs));
+        if (better)
+        {
+            PlayerPrefs.SetInt("HighScore_Level1", score);
+            PlayerPrefs.SetInt("BestTime_Level1_ms", curMs);
+            PlayerPrefs.Save();
+        }
     }
 }

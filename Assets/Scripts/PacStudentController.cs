@@ -95,10 +95,7 @@ public class PacStudentController : MonoBehaviour
         UpdateAnim();
     }
 
-    public void SetInputEnabled(bool v)
-    {
-        inputEnabled = v;
-    }
+    public void SetInputEnabled(bool v) { inputEnabled = v; }
 
     void ReadInput()
     {
@@ -253,7 +250,7 @@ public class PacStudentController : MonoBehaviour
         if (other.CompareTag("Pellet"))
         {
             Destroy(other.gameObject);
-            if (GameManager.I) GameManager.I.AddScore(10);
+            if (GameManager.I) { GameManager.I.AddScore(10); GameManager.I.OnPelletCollected(); }
             return;
         }
         if (other.CompareTag("PowerPellet"))
@@ -263,6 +260,7 @@ public class PacStudentController : MonoBehaviour
             {
                 GameManager.I.AddScore(50);
                 GameManager.I.StartScared(10f);
+                GameManager.I.OnPelletCollected();
             }
             return;
         }
