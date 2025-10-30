@@ -7,7 +7,7 @@ public class PacStudentController : MonoBehaviour
     [Header("Grid")]
     public float tileSize = 20f;
     public float cellsPerSecond = 6f;
-    public LayerMask wallMask;     // set to Wall in Inspector
+    public LayerMask wallMask;
 
     [Header("Anim")]
     public Animator anim;
@@ -16,6 +16,9 @@ public class PacStudentController : MonoBehaviour
     public AudioSource audioSrc;
     public AudioClip sfxMove;
     public AudioClip sfxMoveEat;
+
+    [Header("VFX")]
+    public ParticleSystem moveDust;
 
     [HideInInspector] public Dir lastInput = Dir.None;
     [HideInInspector] public Dir currentInput = Dir.None;
@@ -28,6 +31,7 @@ public class PacStudentController : MonoBehaviour
     {
         if (!anim) anim = GetComponent<Animator>();
         if (!audioSrc) audioSrc = GetComponent<AudioSource>();
+        if (moveDust) moveDust.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         SnapToGrid();
         Face(Dir.Right);
     }
@@ -41,6 +45,7 @@ public class PacStudentController : MonoBehaviour
             if (!TryStartMove(lastInput) && !TryStartMove(currentInput))
             {
                 StopMoveAudio();
+                StopDust();
                 UpdateAnim();
                 return;
             }
@@ -85,24 +90,22 @@ public class PacStudentController : MonoBehaviour
             targetGrid = next;
             Face(d);
             StartMoveAudio(next);
+            PlayDust();
             return true;
         }
         return false;
     }
 
-    // ===== only WALL layer (via wallMask) + gate by tag =====
     bool IsBlocked(Vector2 worldPos, Dir d)
     {
         Vector2 size = Vector2.one * (tileSize * 0.7f);
 
-        // Walls only
         var wallHit = Physics2D.OverlapBox(worldPos, size, 0f, wallMask);
 #if UNITY_EDITOR
         if (wallHit) Debug.Log($"Blocked by WALL: {wallHit.name} (layer {LayerMask.LayerToName(wallHit.gameObject.layer)})");
 #endif
         if (wallHit) return true;
 
-        // Gate by tag (can be on any layer)
         var hits = Physics2D.OverlapBoxAll(worldPos, size, 0f);
         foreach (var h in hits)
         {
@@ -172,5 +175,16 @@ public class PacStudentController : MonoBehaviour
     void StopMoveAudio()
     {
         if (audioSrc && audioSrc.isPlaying) audioSrc.Stop();
+    }
+
+    void PlayDust()
+    {
+        if (!moveDust) return;
+        if (!moveDust.isPlaying) moveDust.Play();
+    }
+
+    void StopDust()
+    {
+        if (moveDust && moveDust.isPlaying) moveDust.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 }
