@@ -131,22 +131,13 @@ public class PacStudentController : MonoBehaviour
     {
         Vector2 size = Vector2.one * (tileSize * 0.7f);
         var wallHit = Physics2D.OverlapBox(worldPos, size, 0f, wallMask);
-#if UNITY_EDITOR
-        if (wallHit) Debug.Log($"Blocked by WALL: {wallHit.name} (layer {LayerMask.LayerToName(wallHit.gameObject.layer)})");
-#endif
         if (wallHit) return true;
 
         var hits = Physics2D.OverlapBoxAll(worldPos, size, 0f);
         foreach (var h in hits)
         {
             if (!h) continue;
-            if (h.CompareTag("GhostExitWall"))
-            {
-#if UNITY_EDITOR
-                Debug.Log($"Blocked by GATE: {h.name} tag={h.tag} layer={LayerMask.LayerToName(h.gameObject.layer)}");
-#endif
-                return true;
-            }
+            if (h.CompareTag("GhostExitWall")) return true;
         }
         return false;
     }
@@ -247,6 +238,19 @@ public class PacStudentController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Pellet"))
+        {
+            Destroy(other.gameObject);
+            if (GameManager.I) GameManager.I.AddScore(10);
+            return;
+        }
+        if (other.CompareTag("Cherry"))
+        {
+            Destroy(other.gameObject);
+            if (GameManager.I) GameManager.I.AddScore(100);
+            return;
+        }
+
         if (Time.time - _lastTeleTime < teleCooldown) return;
         bool hitLeft = other.CompareTag(teleLeftTag) || other.name == "TeleLeft";
         bool hitRight = other.CompareTag(teleRightTag) || other.name == "TeleRight";
