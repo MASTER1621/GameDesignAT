@@ -39,10 +39,6 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public int lives = 3;
 
-    [Header("Death/Respawn")]
-    public float respawnGraceSeconds = 1f;
-    public float ghostDeadSeconds = 3f;
-
     [Header("Power UI Animation")]
     public float powerUISlideDistance = 220f;
     public float powerUIAnimTime = 0.18f;
@@ -335,39 +331,36 @@ public class GameManager : MonoBehaviour
         if (!ghost) return;
         AddScore(300);
         if (sfxSrc && ghostEatenClip) sfxSrc.PlayOneShot(ghostEatenClip);
-        int idx = IndexOfGhost(ghost);
-        if (idx < 0) return;
+        var ctrl = ghost.GetComponent<GhostController>();
         SetBoolIfExists(ghost, "Scared", false);
         SetBoolIfExists(ghost, "Recovering", false);
         SetBoolIfExists(ghost, "Dead", true);
-        StartCoroutine(GhostDeadRoutine(idx, ghost));
+        if (ctrl) ctrl.EnterDeadState();
     }
 
-    IEnumerator GhostDeadRoutine(int idx, Animator ghost)
+    public void OnGhostRevived(Animator ghost)
     {
-        var cols = ghost.GetComponentsInChildren<Collider2D>(true);
-        for (int i = 0; i < cols.Length; i++) cols[i].enabled = false;
-        yield return new WaitForSeconds(ghostDeadSeconds);
-        if (idx < ghostStartPos.Length) ghost.transform.position = ghostStartPos[idx];
-        SetBoolIfExists(ghost, "Dead", false);
-        if (isScared)
+        if (!AnyGhostDead())
         {
-            if (isRecovering) SetBoolIfExists(ghost, "Recovering", true);
-            else SetBoolIfExists(ghost, "Scared", true);
+            if (IsScared) SwitchMusic(scaredBGM);
+            else SwitchMusic(normalBGM);
         }
-        else
-        {
-            SetBoolIfExists(ghost, "Recovering", false);
-            SetBoolIfExists(ghost, "Scared", false);
-        }
-        for (int i = 0; i < cols.Length; i++) cols[i].enabled = true;
     }
 
-    int IndexOfGhost(Animator a)
+    public bool IAnyRecovering()
     {
-        if (ghostAnimators == null) return -1;
-        for (int i = 0; i < ghostAnimators.Length; i++) if (ghostAnimators[i] == a) return i;
-        return -1;
+        if (ghostAnimators == null) return false;
+        for (int i = 0; i < ghostAnimators.Length; i++)
+            if (HasParam(ghostAnimators[i], "Recovering") && ghostAnimators[i].GetBool("Recovering")) return true;
+        return false;
+    }
+
+    bool AnyGhostDead()
+    {
+        if (ghostAnimators == null) return false;
+        for (int i = 0; i < ghostAnimators.Length; i++)
+            if (IsDead(ghostAnimators[i])) return true;
+        return false;
     }
 
     IEnumerator PacDeathSequence()
@@ -380,10 +373,10 @@ public class GameManager : MonoBehaviour
         if (isScared) EndScared();
         lives = Mathf.Max(0, lives - 1);
         UpdateLivesUI();
-        if (lives <= 0) { yield return new WaitForSeconds(1.2f); StartCoroutine(GameOverRoutine()); pacIsDying = false; yield break; }
         yield return new WaitForSeconds(1.2f);
+        if (lives <= 0) { StartCoroutine(GameOverRoutine()); pacIsDying = false; yield break; }
         RespawnPacAndGhosts();
-        pacNoHitUntil = Time.time + respawnGraceSeconds;
+        pacNoHitUntil = Time.time + 1f;
         if (pac) { pac.SetCollidable(true); pac.SetInputEnabled(true); }
         FreezeGhosts(false);
         pacIsDying = false;
@@ -410,7 +403,7 @@ public class GameManager : MonoBehaviour
             {
                 var a = ghostAnimators[i];
                 if (!a) continue;
-                if (i < ghostStartPos.Length) a.transform.position = ghostStartPos[i];
+                a.transform.position = ghostStartPos.Length > i ? ghostStartPos[i] : a.transform.position;
                 SetBoolIfExists(a, "Dead", false);
                 SetBoolIfExists(a, "Scared", false);
                 SetBoolIfExists(a, "Recovering", false);

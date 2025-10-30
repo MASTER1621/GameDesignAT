@@ -8283,7 +8283,7 @@ GameObject:
   - component: {fileID: 157043958}
   - component: {fileID: 157043959}
   m_Layer: 0
-  m_Name: 0_12_14
+  m_Name: 0_12_14(4SPAWN)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12332,6 +12332,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 21.03125, y: 25.03125}
   m_EdgeRadius: 0
+--- !u!1 &220789821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 220789822}
+  m_Layer: 0
+  m_Name: TopExit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &220789822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220789821}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212307635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &221369622
 GameObject:
   m_ObjectHideFlags: 0
@@ -17002,8 +17033,8 @@ GameObject:
   - component: {fileID: 284556314}
   - component: {fileID: 284556316}
   - component: {fileID: 284556315}
-  - component: {fileID: 284556317}
   - component: {fileID: 284556318}
+  - component: {fileID: 284556319}
   m_Layer: 0
   m_Name: Shark_Regular
   m_TagString: Ghost
@@ -17103,19 +17134,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &284556317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284556313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbbc74b87fe69c47b9c7aa0742cb7b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 0}
 --- !u!58 &284556318
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -17152,6 +17170,34 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 11
+--- !u!114 &284556319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284556313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1093e5c33a645ef41bdd14b1709219b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 20
+  cellsPerSecond: 6
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 128
+  anim: {fileID: 284556315}
+  pac: {fileID: 178748429}
+  spawnArea: {fileID: 1212307634}
+  startPoint: {fileID: 0}
+  topExit: {fileID: 0}
+  bottomExit: {fileID: 0}
+  useTopExit: 1
+  kind: 2
+  deadUnitsPerSecond: 120
+  teleLeftTag: TeleLeft
+  teleRightTag: TeleRight
 --- !u!1 &285507529
 GameObject:
   m_ObjectHideFlags: 0
@@ -19209,7 +19255,7 @@ GameObject:
   - component: {fileID: 339659080}
   - component: {fileID: 339659081}
   m_Layer: 0
-  m_Name: 0_13_14
+  m_Name: 0_13_14(2SPAWN)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19704,8 +19750,6 @@ MonoBehaviour:
   pacStartWorld: {x: 20, y: -20}
   score: 0
   lives: 3
-  respawnGraceSeconds: 1
-  ghostDeadSeconds: 3
   powerUISlideDistance: 220
   powerUIAnimTime: 0.18
   pelletsRemaining: 0
@@ -26403,6 +26447,7 @@ GameObject:
   - component: {fileID: 481103807}
   - component: {fileID: 481103806}
   - component: {fileID: 481103808}
+  - component: {fileID: 481103809}
   m_Layer: 0
   m_Name: Shark_Whale
   m_TagString: Ghost
@@ -26538,6 +26583,34 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 11
+--- !u!114 &481103809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481103804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1093e5c33a645ef41bdd14b1709219b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 20
+  cellsPerSecond: 6
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 0
+  anim: {fileID: 0}
+  pac: {fileID: 0}
+  spawnArea: {fileID: 0}
+  startPoint: {fileID: 0}
+  topExit: {fileID: 0}
+  bottomExit: {fileID: 0}
+  useTopExit: 1
+  kind: 2
+  deadUnitsPerSecond: 120
+  teleLeftTag: TeleLeft
+  teleRightTag: TeleRight
 --- !u!1 &481260288
 GameObject:
   m_ObjectHideFlags: 0
@@ -31707,6 +31780,37 @@ Transform:
   - {fileID: 1606338311}
   - {fileID: 481103805}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &560728234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560728235}
+  m_Layer: 0
+  m_Name: BottomExit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &560728235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560728234}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212307635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &562167279
 GameObject:
@@ -62932,6 +63036,7 @@ GameObject:
   - component: {fileID: 999096677}
   - component: {fileID: 999096676}
   - component: {fileID: 999096678}
+  - component: {fileID: 999096679}
   m_Layer: 0
   m_Name: Shark_Hammer
   m_TagString: Ghost
@@ -63067,6 +63172,34 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 11
+--- !u!114 &999096679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999096674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1093e5c33a645ef41bdd14b1709219b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 20
+  cellsPerSecond: 6
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 0
+  anim: {fileID: 0}
+  pac: {fileID: 0}
+  spawnArea: {fileID: 0}
+  startPoint: {fileID: 0}
+  topExit: {fileID: 0}
+  bottomExit: {fileID: 0}
+  useTopExit: 1
+  kind: 2
+  deadUnitsPerSecond: 120
+  teleLeftTag: TeleLeft
+  teleRightTag: TeleRight
 --- !u!1 &1001874597
 GameObject:
   m_ObjectHideFlags: 0
@@ -66384,7 +66517,7 @@ GameObject:
   - component: {fileID: 1064515802}
   - component: {fileID: 1064515803}
   m_Layer: 0
-  m_Name: 0_13_14
+  m_Name: 0_13_14(3SPAWN)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75243,6 +75376,86 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1212307633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1212307635}
+  - component: {fileID: 1212307634}
+  m_Layer: 0
+  m_Name: GhostPen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1212307634
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212307633}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 120, y: 57}
+  m_EdgeRadius: 0
+--- !u!4 &1212307635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212307633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 269.01794, y: -280.2, z: -0.75558764}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 220789822}
+  - {fileID: 560728235}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1215038133
 GameObject:
   m_ObjectHideFlags: 0
@@ -96185,6 +96398,7 @@ GameObject:
   - component: {fileID: 1606338313}
   - component: {fileID: 1606338312}
   - component: {fileID: 1606338314}
+  - component: {fileID: 1606338315}
   m_Layer: 0
   m_Name: Shark_Tiger
   m_TagString: Ghost
@@ -96320,6 +96534,34 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 11
+--- !u!114 &1606338315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606338310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1093e5c33a645ef41bdd14b1709219b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 20
+  cellsPerSecond: 6
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 0
+  anim: {fileID: 0}
+  pac: {fileID: 0}
+  spawnArea: {fileID: 0}
+  startPoint: {fileID: 0}
+  topExit: {fileID: 0}
+  bottomExit: {fileID: 0}
+  useTopExit: 1
+  kind: 2
+  deadUnitsPerSecond: 120
+  teleLeftTag: TeleLeft
+  teleRightTag: TeleRight
 --- !u!1 &1607602488
 GameObject:
   m_ObjectHideFlags: 0
@@ -115326,7 +115568,7 @@ GameObject:
   - component: {fileID: 1882558308}
   - component: {fileID: 1882558309}
   m_Layer: 0
-  m_Name: 0_12_14
+  m_Name: 0_12_14(1SPAWN)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132385,3 +132627,4 @@ SceneRoots:
   - {fileID: 1486223516}
   - {fileID: 2083392289}
   - {fileID: 514480232}
+  - {fileID: 1212307635}
