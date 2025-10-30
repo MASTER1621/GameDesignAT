@@ -15016,7 +15016,7 @@ GameObject:
   - component: {fileID: 254348699}
   - component: {fileID: 254348700}
   - component: {fileID: 254348701}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: 8_13_12
   m_TagString: GhostExitWall
   m_Icon: {fileID: 0}
@@ -17190,11 +17190,12 @@ MonoBehaviour:
   anim: {fileID: 284556315}
   pac: {fileID: 178748429}
   spawnArea: {fileID: 1212307634}
-  startPoint: {fileID: 0}
-  topExit: {fileID: 0}
-  bottomExit: {fileID: 0}
+  startPoint: {fileID: 1882558308}
+  topExit: {fileID: 220789822}
+  bottomExit: {fileID: 560728235}
   useTopExit: 1
-  kind: 2
+  kind: 0
+  statePrefix: Reg
   deadUnitsPerSecond: 120
   teleLeftTag: TeleLeft
   teleRightTag: TeleRight
@@ -26599,15 +26600,16 @@ MonoBehaviour:
   cellsPerSecond: 6
   wallMask:
     serializedVersion: 2
-    m_Bits: 0
-  anim: {fileID: 0}
-  pac: {fileID: 0}
-  spawnArea: {fileID: 0}
-  startPoint: {fileID: 0}
-  topExit: {fileID: 0}
-  bottomExit: {fileID: 0}
-  useTopExit: 1
-  kind: 2
+    m_Bits: 128
+  anim: {fileID: 481103807}
+  pac: {fileID: 178748429}
+  spawnArea: {fileID: 1212307634}
+  startPoint: {fileID: 157043958}
+  topExit: {fileID: 220789822}
+  bottomExit: {fileID: 560728235}
+  useTopExit: 0
+  kind: 3
+  statePrefix: Whale
   deadUnitsPerSecond: 120
   teleLeftTag: TeleLeft
   teleRightTag: TeleRight
@@ -63188,15 +63190,16 @@ MonoBehaviour:
   cellsPerSecond: 6
   wallMask:
     serializedVersion: 2
-    m_Bits: 0
-  anim: {fileID: 0}
-  pac: {fileID: 0}
-  spawnArea: {fileID: 0}
-  startPoint: {fileID: 0}
-  topExit: {fileID: 0}
-  bottomExit: {fileID: 0}
+    m_Bits: 128
+  anim: {fileID: 999096677}
+  pac: {fileID: 178748429}
+  spawnArea: {fileID: 1212307634}
+  startPoint: {fileID: 1064515802}
+  topExit: {fileID: 220789822}
+  bottomExit: {fileID: 560728235}
   useTopExit: 1
   kind: 2
+  statePrefix: Hammer
   deadUnitsPerSecond: 120
   teleLeftTag: TeleLeft
   teleRightTag: TeleRight
@@ -86793,7 +86796,7 @@ GameObject:
   - component: {fileID: 1442535743}
   - component: {fileID: 1442535744}
   - component: {fileID: 1442535745}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: 8_13_12
   m_TagString: GhostExitWall
   m_Icon: {fileID: 0}
@@ -96550,15 +96553,16 @@ MonoBehaviour:
   cellsPerSecond: 6
   wallMask:
     serializedVersion: 2
-    m_Bits: 0
-  anim: {fileID: 0}
-  pac: {fileID: 0}
-  spawnArea: {fileID: 0}
-  startPoint: {fileID: 0}
-  topExit: {fileID: 0}
-  bottomExit: {fileID: 0}
-  useTopExit: 1
-  kind: 2
+    m_Bits: 128
+  anim: {fileID: 1606338313}
+  pac: {fileID: 178748429}
+  spawnArea: {fileID: 1212307634}
+  startPoint: {fileID: 339659080}
+  topExit: {fileID: 220789822}
+  bottomExit: {fileID: 560728235}
+  useTopExit: 0
+  kind: 1
+  statePrefix: Tiger
   deadUnitsPerSecond: 120
   teleLeftTag: TeleLeft
   teleRightTag: TeleRight
@@ -103771,7 +103775,7 @@ GameObject:
   - component: {fileID: 1701119261}
   - component: {fileID: 1701119262}
   - component: {fileID: 1701119263}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: 8_13_12
   m_TagString: GhostExitWall
   m_Icon: {fileID: 0}
@@ -111319,7 +111323,7 @@ GameObject:
   - component: {fileID: 1813848516}
   - component: {fileID: 1813848517}
   - component: {fileID: 1813848518}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: 8_13_12
   m_TagString: GhostExitWall
   m_Icon: {fileID: 0}

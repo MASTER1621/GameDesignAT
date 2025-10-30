@@ -21,6 +21,9 @@ public class GhostController : MonoBehaviour
     public bool useTopExit = true;
     public Kind kind = Kind.G3_Random;
 
+    [Header("Anim Names")]
+    public string statePrefix = "Reg";
+
     [Header("Dead Move")]
     public float deadUnitsPerSecond = 120f;
 
@@ -38,8 +41,8 @@ public class GhostController : MonoBehaviour
     void Start()
     {
         SnapToGrid();
-        if (anim == null) anim = GetComponent<Animator>();
-        if (pac == null && GameManager.I) pac = GameManager.I.pac;
+        if (!anim) anim = GetComponent<Animator>();
+        if (!pac && GameManager.I) pac = GameManager.I.pac;
         if (deadUnitsPerSecond <= 0f) deadUnitsPerSecond = cellsPerSecond * tileSize;
         if (currentDir == Dir.None) currentDir = Dir.Right;
         TryStartMove(currentDir);
@@ -95,10 +98,7 @@ public class GhostController : MonoBehaviour
         Vector2 dir = ToVec(d) * tileSize;
         Vector2 next = currentGrid + dir;
 
-        if (!IsWalkable(next))
-        {
-            return false;
-        }
+        if (!IsWalkable(next)) return false;
 
         lastDir = currentDir;
         currentDir = d;
@@ -132,9 +132,7 @@ public class GhostController : MonoBehaviour
         }
 
         if (kind == Kind.G3_Random)
-        {
             return options[Random.Range(0, options.Count)];
-        }
         else if (kind == Kind.G4_Clockwise)
         {
             Dir r = RightOf(currentDir);
@@ -202,17 +200,25 @@ public class GhostController : MonoBehaviour
     {
         if (!IsDead())
         {
-            if (!InsideSpawn() && spawnArea && IsPointInside(spawnArea, cellCenter)) return false;
             Vector2 size = Vector2.one * (tileSize * 0.7f);
-            var wallHit = Physics2D.OverlapBox(cellCenter, size, 0f, wallMask);
-            if (wallHit) return false;
+            if (InsideSpawn())
+            {
+                var walls = Physics2D.OverlapBoxAll(cellCenter, size, 0f, wallMask);
+                for (int i = 0; i < walls.Length; i++)
+                    if (!walls[i].CompareTag("GhostExitWall")) return false;
+            }
+            else
+            {
+                var wallHit = Physics2D.OverlapBox(cellCenter, size, 0f, wallMask);
+                if (wallHit) return false;
+            }
 
             var hits = Physics2D.OverlapBoxAll(cellCenter, size, 0f);
             for (int i = 0; i < hits.Length; i++)
             {
                 var h = hits[i];
                 if (!h) continue;
-                if (h.CompareTag("GhostExitWall")) return false;
+                if (!InsideSpawn() && h.CompareTag("GhostExitWall")) return false;
                 if (h.CompareTag(teleLeftTag) || h.CompareTag(teleRightTag)) return false;
             }
             return true;
@@ -300,10 +306,31 @@ public class GhostController : MonoBehaviour
 
     void Face(Dir d)
     {
-        SetBoolIfExists("FaceUp", d == Dir.Up);
-        SetBoolIfExists("FaceDown", d == Dir.Down);
-        SetBoolIfExists("FaceLeft", d == Dir.Left);
-        SetBoolIfExists("FaceRight", d == Dir.Right);
+        bool used = false;
+        if (HasParam("FaceUp")) { anim.SetBool("FaceUp", d == Dir.Up); used = true; }
+        if (HasParam("FaceDown")) { anim.SetBool("FaceDown", d == Dir.Down); used = true; }
+        if (HasParam("FaceLeft")) { anim.SetBool("FaceLeft", d == Dir.Left); used = true; }
+        if (HasParam("FaceRight")) { anim.SetBool("FaceRight", d == Dir.Right); used = true; }
+        if (!used) PlayStateForDir(d);
+    }
+
+    void PlayStateForDir(Dir d)
+    {
+        string dirName = d == Dir.Up ? "Up" : d == Dir.Down ? "Down" : d == Dir.Left ? "Left" : "Right";
+        bool dead = HasParam("Dead") && anim.GetBool("Dead");
+        bool rec = HasParam("Recovering") && anim.GetBool("Recovering");
+        bool scared = HasParam("Scared") && anim.GetBool("Scared");
+        string cat = dead ? "Dead" : rec ? "Recovering" : scared ? "Scared" : "Walk";
+        string baseName = (string.IsNullOrEmpty(statePrefix) ? "Reg" : statePrefix) + "_" + cat + "_" + dirName;
+        string altName = baseName + " 0";
+        if (HasState(baseName)) anim.Play(baseName, 0, 0f);
+        else if (HasState(altName)) anim.Play(altName, 0, 0f);
+    }
+
+    bool HasState(string name)
+    {
+        if (!anim) return false;
+        return anim.HasState(0, Animator.StringToHash(name));
     }
 
     void SetBoolIfExists(string p, bool v)
