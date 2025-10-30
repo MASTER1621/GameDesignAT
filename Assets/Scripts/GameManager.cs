@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     [Header("Pac")]
     public PacStudentController pac;
     public ParticleSystem pacDeathFXPrefab;
-    public Vector2 pacStartWorld = new Vector2(20f, -20f);
+    public Vector2 pacStartWorld = new Vector2(21f, -21f);
 
     [Header("State")]
     public int score = 0;
@@ -136,16 +136,13 @@ public class GameManager : MonoBehaviour
 
     public void StartScared(float duration = 10f)
     {
-        if (scaredTimer < duration) scaredTimer = duration;
-        if (!isScared)
-        {
-            isScared = true;
-            isRecovering = false;
-            SetGhostsScared();
-            ShowGhostTimerAnimated();
-            SwitchMusic(scaredBGM);
-            UpdateGhostTimerUI(scaredTimer);
-        }
+        scaredTimer = duration;
+        isScared = true;
+        isRecovering = false;
+        SetGhostsScared();
+        ShowGhostTimerAnimated();
+        SwitchMusic(scaredBGM);
+        UpdateGhostTimerUI(scaredTimer);
     }
 
     void EndScared()
