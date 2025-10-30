@@ -3,10 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Pellet
-  - PowerPellet
-  - GhostExitWall
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -15,7 +12,6 @@ TagManager:
   - Water
   - UI
   - 
-  - Wall
   - 
   - 
   - 
@@ -23,7 +19,8 @@ TagManager:
   - 
   - 
   - 
-  - Topp
+  - 
+  - 
   - 
   - 
   - 
@@ -43,7 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Top
-    uniqueID: 2502022089
     locked: 0
